@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-main: #f8f8f8;
+  --color-color-footer:#fff;
+  --color-color-navbar:#fff;
+
+  --color-text-light:#fff;
+  --color-text-dark:#333;
+
+  
+  --color-bg-surface: #000; 
+  
+  --color-brand-primary: #0052FF; 
+  --color-brand-hover: #0038B6;
+  
+  --color-color-title: #e4e2e5;  
+  --color-color-body: #7e8088;  
+}
+
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-color-body); /* Ajustado a tu variable de texto actual */
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+}

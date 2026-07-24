@@ -1,0 +1,194 @@
+<div class="min-h-screen bg-black text-neutral-100 p-8 font-sans animate-fadeIn">
+  
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12 border-b border-neutral-800 pb-8">
+    <div>
+      <div class="flex items-center gap-2 mb-2">
+        <a routerLink="/dashboard" class="text-xs text-neutral-500 hover:text-white transition duration-150 flex items-center gap-1 cursor-pointer">
+          &larr; Volver a Proyectos
+        </a>
+      </div>
+      <h1 class="text-4xl font-extrabold tracking-tight text-white mb-2">
+        {{ project?.name || 'Cargando Proyecto...' }}
+      </h1>
+      <p class="text-neutral-400 text-sm max-w-xl leading-relaxed">
+        {{ project?.description || 'Gestiona las incidencias y organiza el flujo de trabajo del equipo en tiempo real.' }}
+      </p>
+    </div>
+    
+    <div class="flex flex-wrap md:flex-nowrap gap-3">
+      @if (project?.idUser === userId) {
+        <button 
+          (click)="confirmDeleteProject()" 
+          class="w-1/2 md:w-auto px-4 py-2 bg-transparent hover:bg-red-950/20 text-red-500 border border-red-900/30 hover:border-red-700/50 rounded-md font-semibold text-xs md:text-sm transition duration-150 cursor-pointer shadow-sm">
+          Eliminar Proyecto
+        </button>
+      }
+
+      <button (click)="openArchivedProjectsModal()" class="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-800 rounded-md font-medium text-sm transition duration-200 cursor-pointer shadow-sm">
+        🕒 Ver Historial ({{ doneList.length }})
+      </button>
+
+      <button (click)="openCreateIssueModal()" class="px-4 py-2 bg-white hover:bg-neutral-250 text-black rounded-md font-semibold text-sm transition duration-200 cursor-pointer shadow-md">
+        + Crear Incidencia
+      </button>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" cdkDropListGroup>
+    
+    <div class="bg-[#0a0a0a] border border-neutral-800 rounded-lg p-4 flex flex-col min-h-150">
+      <div class="flex justify-between items-center mb-4 border-b border-neutral-900 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-neutral-600"></span>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Backlog</h3>
+        </div>
+        <span class="px-2 py-0.5 text-xs font-mono font-bold text-neutral-400 bg-neutral-900 rounded">
+          {{ backlogList.length }}
+        </span>
+      </div>
+      
+      <div
+        cdkDropList
+        [cdkDropListData]="backlogList"
+        class="flex-1 flex flex-col gap-3 min-h-125"
+        (cdkDropListDropped)="onDrop($event, 'BACKLOG')">
+        
+        @for (issue of backlogList; track issue.id) {
+          <div cdkDrag class="bg-black border border-neutral-800 hover:border-neutral-700 rounded-md p-4 cursor-grab active:cursor-grabbing transition duration-150 shadow-sm relative group">
+            <div class="flex justify-between items-start mb-2">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold text-neutral-400 bg-neutral-900 border border-neutral-800 rounded">
+                {{ issue.ticketCode }}
+              </span>
+              <button (click)="openIssueHistory(issue.id!, issue.title); $event.stopPropagation()" class="text-[10px] text-neutral-500 hover:text-white transition cursor-pointer">
+                🕒 Ver Cambios
+              </button>
+              <span [class]="'text-[10px] font-bold uppercase tracking-wider ' + (issue.priority === 'HIGH' ? 'text-red-400' : issue.priority === 'MEDIUM' ? 'text-amber-400' : 'text-neutral-500')">
+                {{ issue.priority }}
+              </span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1 group-hover:text-neutral-200">{{ issue.title }}</h4>
+            <p class="text-xs text-neutral-400 line-clamp-2 leading-relaxed">{{ issue.description || 'Sin descripción.' }}</p>
+            <div class="mt-3 pt-3 border-t border-neutral-900 flex justify-between items-center text-[10px] text-neutral-500 font-mono">
+              <span>Tipo: {{ issue.type }}</span>
+              <span class="truncate max-w-25 text-right" title="{{ issue.assigneeName }}">{{ issue.assigneeName || 'Sin asignar' }}</span>
+            </div>
+          </div>
+        } @empty {
+          <div class="text-center py-12 text-xs text-neutral-600 border border-dashed border-neutral-850 rounded-lg flex flex-col items-center justify-center h-full">
+            Sin tareas en Backlog
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="bg-[#0a0a0a] border border-neutral-800 rounded-lg p-4 flex flex-col min-h-150">
+      <div class="flex justify-between items-center mb-4 border-b border-neutral-900 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Por Hacer</h3>
+        </div>
+        <span class="px-2 py-0.5 text-xs font-mono font-bold text-neutral-400 bg-neutral-900 rounded">
+          {{ todoList.length }}
+        </span>
+      </div>
+      
+      <div
+        cdkDropList
+        [cdkDropListData]="todoList"
+        class="flex-1 flex flex-col gap-3 min-h-125"
+        (cdkDropListDropped)="onDrop($event, 'TODO')">
+        
+        @for (issue of todoList; track issue.id) {
+          <div cdkDrag class="bg-black border border-neutral-800 hover:border-neutral-700 rounded-md p-4 cursor-grab active:cursor-grabbing transition duration-150 shadow-sm relative group">
+            <div class="flex justify-between items-start mb-2">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold text-neutral-400 bg-neutral-900 border border-neutral-800 rounded">
+                {{ issue.ticketCode }}
+              </span>
+              <button (click)="openIssueHistory(issue.id!, issue.title); $event.stopPropagation()" class="text-[10px] text-neutral-500 hover:text-white transition cursor-pointer">
+                🕒 Ver Cambios
+              </button>
+              <span [class]="'text-[10px] font-bold uppercase tracking-wider ' + (issue.priority === 'HIGH' ? 'text-red-400' : issue.priority === 'MEDIUM' ? 'text-amber-400' : 'text-neutral-500')">
+                {{ issue.priority }}
+              </span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1 group-hover:text-neutral-200">{{ issue.title }}</h4>
+            <p class="text-xs text-neutral-400 line-clamp-2 leading-relaxed">{{ issue.description || 'Sin descripción.' }}</p>
+            <div class="mt-3 pt-3 border-t border-neutral-900 flex justify-between items-center text-[10px] text-neutral-500 font-mono">
+              <span>Tipo: {{ issue.type }}</span>
+              <span class="truncate max-w-25 text-right" title="{{ issue.assigneeName }}">{{ issue.assigneeName || 'Sin asignar' }}</span>
+            </div>
+          </div>
+        } @empty {
+          <div class="text-center py-12 text-xs text-neutral-600 border border-dashed border-neutral-850 rounded-lg flex flex-col items-center justify-center h-full">
+            Columna vacía
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="bg-[#0a0a0a] border border-neutral-800 rounded-lg p-4 flex flex-col min-h-150">
+      <div class="flex justify-between items-center mb-4 border-b border-neutral-900 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">En Progreso</h3>
+        </div>
+        <span class="px-2 py-0.5 text-xs font-mono font-bold text-neutral-400 bg-neutral-900 rounded">
+          {{ inProgressList.length }}
+        </span>
+      </div>
+      
+      <div
+        cdkDropList
+        [cdkDropListData]="inProgressList"
+        class="flex-1 flex flex-col gap-3 min-h-125"
+        (cdkDropListDropped)="onDrop($event, 'IN_PROGRESS')">
+        
+        @for (issue of inProgressList; track issue.id) {
+          <div cdkDrag class="bg-black border border-neutral-800 hover:border-neutral-700 rounded-md p-4 cursor-grab active:cursor-grabbing transition duration-150 shadow-sm relative group">
+            <div class="flex justify-between items-start mb-2">
+              <span class="px-2 py-0.5 text-[10px] font-mono font-bold text-neutral-400 bg-neutral-900 border border-neutral-800 rounded">
+                {{ issue.ticketCode }}
+              </span>
+              <button (click)="openIssueHistory(issue.id!, issue.title); $event.stopPropagation()" class="text-[10px] text-neutral-500 hover:text-white transition cursor-pointer">
+                🕒 Ver Cambios
+              </button>
+              <span [class]="'text-[10px] font-bold uppercase tracking-wider ' + (issue.priority === 'HIGH' ? 'text-red-400' : issue.priority === 'MEDIUM' ? 'text-amber-400' : 'text-neutral-500')">
+                {{ issue.priority }}
+              </span>
+            </div>
+            <h4 class="text-sm font-semibold text-white mb-1 group-hover:text-neutral-200">{{ issue.title }}</h4>
+            <p class="text-xs text-neutral-400 line-clamp-2 leading-relaxed">{{ issue.description || 'Sin descripción.' }}</p>
+            <div class="mt-3 pt-3 border-t border-neutral-900 flex justify-between items-center text-[10px] text-neutral-500 font-mono">
+              <span>Tipo: {{ issue.type }}</span>
+              <span class="truncate max-w-25 text-right" title="{{ issue.assigneeName }}">{{ issue.assigneeName || 'Sin asignar' }}</span>
+            </div>
+          </div>
+        } @empty {
+          <div class="text-center py-12 text-xs text-neutral-600 border border-dashed border-neutral-850 rounded-lg flex flex-col items-center justify-center h-full">
+            Columna vacía
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="bg-[#0a0a0a] border border-neutral-800 rounded-lg p-4 flex flex-col min-h-150">
+      <div class="flex justify-between items-center mb-4 border-b border-neutral-900 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-neutral-300">Completado (Archivar)</h3>
+        </div>
+      </div>
+      
+      <div
+        cdkDropList
+        [cdkDropListData]="doneList"
+        class="flex-1 flex flex-col gap-3 min-h-125 bg-emerald-950/5 border border-dashed border-neutral-850 rounded-lg items-center justify-center p-4 text-center"
+        (cdkDropListDropped)="onDrop($event, 'DONE')">
+        
+        <span class="text-emerald-500 text-2xl mb-1">&check;</span>
+        <p class="text-xs text-neutral-500 max-w-40">Arrastra aquí cualquier tarea para completarla y archivarla en el historial</p>
+      </div>
+    </div>
+
+  </div>
+</div>

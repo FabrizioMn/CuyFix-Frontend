@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-black text-text-body flex flex-col relative">
+  
+  <header class="fixed top-0 left-0 right-0 z-50 flex items-center h-16 px-6 bg-black ">
+    <div class="w-full max-w-4xl flex items-center justify-between mx-auto">
+      <div>
+        <a href="#" class="text-xl tracking-tight text-white hover:bg-white/30 rounded-full p-1.5 transition-all"><span>🐹</span> CuyFix </a>
+      </div>
+      <div class="flex items-center gap-5">
+          <a routerLink="/login" class="bg-transparent hover:scale-105 hover:text-white border border-white/10 text-color-body font-semibold px-5 py-2 rounded-full transition-colors">Iniciar Sesion</a>
+          <a routerLink="/register" class="bg-white hover:scale-105 transition px-7 py-2 text-black font-medium rounded-full">Registrate</a>
+      </div>
+    </div>
+  </header>
+  
+  <main class="flex-1 py-16 relative z-10">
+
+    <section class="pt-32 px-6 mx-auto overflow-hidden text-center">
+      <h1 class="text-5xl md:text-8xl font-bold text-color-title tracking-tight max-w-4xl mx-auto">
+        CuyFix
+      </h1>
+      <p class="mt-6 text-xl text-color-body max-w-4xl mx-auto leading-relaxed">
+      Gestión de incidentes sin caos, diseñada para equipos ágiles.
+    </p>
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+      <a routerLink="/register" class="bg-white hover:scale-105 text-black font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-xl shadow-brand-primary/20">
+        Empezar ahora
+      </a>
+    </div>
+    <div class="mt-16 relative w-full max-w-[1600px] mx-auto rounded-2xl bg-[#252528] p-3">
+      <div class="aspect-video w-full rounded-xl bg-slate-900  flex items-center justify-center text-text-dark">
+        <img src="./ScreenPrueba.png" class="rounded-xl" alt="">
+      </div>
+    </div>
+    </section>
+
+    <section class="py-20 px-6 mx-auto">
+    <p class="text-4xl md:text-5xl font-bold text-white text-center py-5 tracking-tight max-w-3xl mx-auto">Diseñado para el ciclo de vida de tu software</p>
+    <div class="max-w-7xl flex flex-col items-stretch justify-center gap-3 mx-auto p-5 md:flex-row">
+      <div class="bg-[#101012] py-5 px-10 w-full max-w-90 rounded-2xl text-left hover:scale-105 transition-all duration-400">
+        <h2 class="relative z-10 text-xl md:text-2xl font-bold text-color-title tracking-tight">
+          Triage y Códigos Correlativos
+        </h2>
+        <p class="relative z-10 mt-2 text-white/90 max-w-xl mx-auto text-base md:text-[16px]">
+          Organiza tus incidencias mediante claves de proyecto personalizadas (PROJ-1, PROJ-2). Clasifica por prioridad (Alta, Media, Baja) y tipo (Bug, Tarea, Story) en un entorno centralizado que asigna tickets únicamente a miembros autorizados de tu equipo.
+        </p>
+      </div>
+      <div class="bg-[#101012] py-5 px-10 w-full max-w-90 rounded-2xl text-left hover:scale-105 transition-all duration-400">
+        <h2 class="relative z-10 text-xl md:text-2xl font-bold text-color-title tracking-tight">
+          Auditoría e Historial Automático
+        </h2>
+        <p class="relative z-10 mt-2 text-white/90 max-w-xl mx-auto text-base md:text-[16px]">
+          Mantén trazabilidad total en cada cambio de estado. Cada movimiento desde el Backlog hasta la resolución final queda registrado con hora exacta y el usuario que ejecutó la acción, eliminando la falta de claridad sobre quién avanzó cada tarea.
+        </p>
+      </div>
+      <div class="bg-[#101012] py-5 px-10 w-full max-w-90 rounded-2xl text-left hover:scale-105 transition-all duration-400">
+        <h2 class="relative z-10 text-xl md:text-2xl font-bold text-color-title tracking-tight">
+          Proyectos y Colaboración por Código
+        </h2>
+        <p class="relative z-10 mt-2 text-white/90 max-w-xl mx-auto text-base md:text-[16px]">
+          Invita a desarrolladores e ingenieros a tus proyectos mediante códigos únicos de acceso instantáneo. Administra roles de equipo, gestiona el acceso de miembros y mantén control absoluto sobre quién tiene permisos para crear o modificar incidencias.
+        </p>
+      </div>
+    </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-[#252528] rounded-xl mx-2 py-8 px-6 text-sm relative z-10">
+    <div class="max-w-7xl mx-auto flex justify-center items-center gap-4">
+      <div>
+        <span class="font-semibold text-color-body"
+          >CuyFix © 2026. Todos los derechos reservados.</span
+        >
+      </div>
+    </div>
+  </footer>
+</div>

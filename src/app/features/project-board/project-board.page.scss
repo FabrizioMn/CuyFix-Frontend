@@ -1,0 +1,31 @@
+/* Aceleración por hardware y fluidez */
+.cdk-drag {
+  will-change: transform;
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Sombras y optimización del preview que sigue al cursor */
+.cdk-drag-preview {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid #333333 !important;
+  border-radius: 8px;
+  background-color: #0a0a0a !important;
+  opacity: 0.95;
+  pointer-events: none; 
+  transform: translate3d(0, 0, 0);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.15;
+  border: 1px dashed #444444 !important;
+  background-color: transparent !important;
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-animating {
+  transition: transform 150ms cubic-bezier(0, 0, 0.2, 1);
+}
