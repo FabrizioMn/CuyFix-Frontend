@@ -5,7 +5,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./features/landing/landing.page').then((m) => m.LandingPage),
-    title: 'Bienvenidos | Stride',
+    title: 'Bienvenidos | CuyFix',
   },
   {
     path: 'login',
@@ -21,14 +21,14 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('./features/dashboard/dashboard.page').then((m) => m.DashboardPage),
-    title: 'Tablero | Stride',
+    title: 'Tablero | CuyFix',
     canActivate: [authGuard],
   },
   {
     path: 'board/:id',
     loadComponent: () =>
       import('./features/project-board/project-board.page').then((m) => m.ProjectBoardPage),
-    title: 'Tablero Kanban | Stride',
+    title: 'Tablero Kanban | CuyFix',
     canActivate: [authGuard],
   },
   {
